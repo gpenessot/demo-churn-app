@@ -1,11 +1,14 @@
 import streamlit as st
 import joblib
 import pandas as pd
+from pathlib import Path
 
 st.set_page_config(page_title="Prédicteur de Churn", page_icon="🎯")
 
 @st.cache_resource
 def load_model():
+    if not Path("churn_model.pkl").exists():
+        import train_model  # génère churn_model.pkl au premier démarrage
     return joblib.load("churn_model.pkl")
 
 model = load_model()
