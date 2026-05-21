@@ -11,14 +11,6 @@ def load_model():
         import train_model  # génère churn_model.pkl au premier démarrage
     return joblib.load("churn_model.pkl")
 
-@st.cache_data
-def get_risk_table():
-    return pd.DataFrame({
-        "Risque": ["Faible", "Élevé"],
-        "Seuil de probabilité": ["< 50 %", "≥ 50 %"],
-        "Action recommandée": ["Aucune action requise", "Contacter le client rapidement"],
-    })
-
 model = load_model()
 
 st.title("Prédiction de Churn Client")
@@ -35,6 +27,3 @@ if st.button("Lancer la Prédiction", type="primary"):
             st.error(f"Risque de Churn Élevé : {prediction:.1%}")
         else:
             st.success(f"Risque de Churn Faible : {prediction:.1%}")
-
-with st.expander("Grille d'interprétation"):
-    st.dataframe(get_risk_table(), hide_index=True)
